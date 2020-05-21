@@ -30,8 +30,9 @@ router.get('/:id', (req, res)=>{
 router.post('/', (req, res)=>{
     Boogers.add(req.body)
     .then(booger =>{
-        res.status(201).json({message: 'Look at you! You made a booger!'}, booger)
+        res.status(201).json({booger})
     }).catch(err =>{
+        console.log(err, "posted")
         res.status(500).json({message: 'You shame the nose, no boogers created'})
     })
 })
@@ -40,7 +41,7 @@ router.delete('/:id', (req, res)=>{
     Boogers.pick(req.params.id)
     .then(pickNose =>{
         if(pickNose > 0){
-            res.status(200).json({message: 'You have Successfully Picked Your Nose!'}, pickNose)
+            res.status(200).json({pickNose})
         }else{
             res.status(500).json({
                 message: 'You could not get your finger deep enough into the nose to pick out that booger!'

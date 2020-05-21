@@ -1,4 +1,4 @@
-const db = require('../data/dbConnect')
+const db = require('../data/dbConfig')
 
 module.exports = {
     get,
@@ -12,7 +12,7 @@ function get(){
     
 }
 
-function getById(){
+function getById(id){
     return db('boogers').where({id}).first()
 }
 
