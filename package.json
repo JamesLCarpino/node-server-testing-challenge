@@ -4,8 +4,8 @@
   "description": "Node Server Testing Challenge",
   "main": "server.js",
   "scripts": {
-    "test": "jest --watch",
-    "server": "nodemon"
+    "test": "cross-env DB_ENV=testing jest --watch --runInBand",
+    "server": "nodemon index.js"
   },
   "jest": {
     "testEnvironment": "node"

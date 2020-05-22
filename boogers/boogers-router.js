@@ -42,9 +42,9 @@ router.post('/', (req, res)=>{
 
 router.delete('/:id', (req, res)=>{
     Boogers.pick(req.params.id)
-    .then(pickNose =>{
-        if(pickNose > 0){
-            res.status(200).json({pickNose})
+    .then(nose_picked =>{
+        if(nose_picked > 0){
+            res.status(200).json({nose_picked})
         }else{
             res.status(500).json({
                 message: 'You could not get your finger deep enough into the nose to pick out that booger!'

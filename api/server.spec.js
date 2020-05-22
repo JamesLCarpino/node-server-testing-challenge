@@ -1,6 +1,9 @@
 const supertest = require('supertest')
 const server = require('./server')
-
+const db = require('../data/dbConfig')
+beforeEach(() => {
+    return db.migrate.rollback().then(()=>db.migrate.latest()).then(()=>db.seed.run());
+});
 
 describe('server testeration', ()=>{
     it('can run the tests', ()=>{
@@ -36,13 +39,13 @@ describe('server testeration', ()=>{
                 expect(Array.isArray(res.body)).toBe(true)
             })
         })
-        // it('should return length of array', ()=>{
-        //     return supertest(server)
-        //     .get('/api/boogers')
-        //     .then(res =>{
-        //         expect(res.body).toHaveLength(9)
-        //     })
-        // })
+        it('should return length of array', ()=>{
+            return supertest(server)
+            .get('/api/boogers')
+            .then(res =>{
+                expect(res.body).toHaveLength(4)
+            })
+        })
     })
     describe('GET /boogers/:id', ()=>{
         it('should return specific item by id', ()=>{
@@ -73,18 +76,6 @@ describe('server testeration', ()=>{
            .then(res =>{
             expect(res.status).toBe(201)
            })
-
-           
-        
-    //     it('should return status code 201', () =>{
-           
-    //         return supertest(server)
-    //         .post('/api/booger')
-    //         .send({name: 'New Name'})
-    //         .then(res =>{
-                
-    //             expect(res.status).toBe(201)
-    //         })
          })
          it('should return 500 upon failure', ()=>{
              let newPost = {
@@ -99,5 +90,21 @@ describe('server testeration', ()=>{
              })
          })
         
+     })
+     describe('DELETE /api/boogers/:id', ()=>{
+         it('should delete the shit out of something for all eternity..but show status 200 for the deletaion', ()=>{
+             return supertest(server)
+             .delete('/api/boogers/2')
+             .then(res =>{
+                 expect(res.status).toBe(200)
+             })
+         })
+         it('should throw error 500 when id does not exist', ()=>{
+             return supertest(server)
+             .delete('/api/boogers/8')
+             .then(res =>{
+                 expect(res.status).toBe(500)
+             })
+         })
      })
 })
