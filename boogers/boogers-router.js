@@ -18,7 +18,7 @@ router.get('/:id', (req, res)=>{
         if(boogers){
             res.status(200).json(boogers);
         }else{
-            res.status(404).json({
+            res.status(400).json({
                 message: 'No specific booger found in this nose'
             })
         }
@@ -30,10 +30,13 @@ router.get('/:id', (req, res)=>{
 router.post('/', (req, res)=>{
     Boogers.add(req.body)
     .then(booger =>{
+        
         res.status(201).json({booger})
+        
+       
     }).catch(err =>{
         console.log(err, "posted")
-        res.status(500).json({message: 'You shame the nose, no boogers created'})
+        res.status(500).json({message: 'You shame the nose, no boogers created, boogers require a name to be made new!'})
     })
 })
 
